@@ -1,0 +1,39 @@
+{
+  "name": "somos-mas-ong",
+  "version": "1.0.0",
+  "description": "Somos Más ONG web app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server",
+    "dev": "nodemon server",
+    "build": "cd client/ && npm install && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m-torre/somos-mas-ong.git"
+  },
+  "author": "Maximiliano Torre",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/m-torre/somos-mas-ong/issues"
+  },
+  "homepage": "https://github.com/m-torre/somos-mas-ong#readme",
+  "devDependencies": {
+    "eslint": "^8.24.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "morgan": "^1.10.0",
+    "pg": "^8.8.0",
+    "sequelize": "^6.23.1",
+    "sequelize-cli": "^6.4.1"
+  }
+}
