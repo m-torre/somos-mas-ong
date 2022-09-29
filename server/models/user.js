@@ -16,7 +16,11 @@ module.exports = (sequelize, DataTypes) => {
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
       email: DataTypes.STRING,
-      image: DataTypes.STRING,
+      image: {
+        type: DataTypes.STRING,
+        defaultValue:
+          "https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png",
+      },
       passwordHash: DataTypes.STRING,
       roleId: DataTypes.INTEGER,
       deletedAt: DataTypes.DATE,
