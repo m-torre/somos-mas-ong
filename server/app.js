@@ -6,6 +6,7 @@ const path = require("path");
 const morgan = require("morgan");
 const unknownEndpoint = require("./middleware/unknownEndpoint");
 
+const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 
 app.use(cors());
@@ -13,6 +14,7 @@ app.use(express.static(path.resolve(__dirname, "../client/build")));
 app.use(express.json());
 app.use(morgan("dev"));
 
+app.use("/api/users", usersRouter);
 app.use("/api/auth", authRouter);
 
 app.get("/api/*", unknownEndpoint);
