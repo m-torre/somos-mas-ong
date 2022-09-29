@@ -13,9 +13,7 @@ const getUsers = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const id = req.params.id;
-
-  const userFound = await User.findByPk(id);
+  const userFound = await User.findByPk(req.params.id);
 
   if (!userFound) {
     return res.status(404).json({ error: "User not found." });
@@ -41,7 +39,22 @@ const updateUser = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  const userFound = await User.findByPk(req.params.id);
+
+  try {
+    if (userFound) {
+      await userFound.destroy();
+    }
+  } catch (error) {
+    next(error);
+  }
+
+  res.status(204).end();
+};
+
 module.exports = {
   getUsers,
   updateUser,
+  deleteUser,
 };

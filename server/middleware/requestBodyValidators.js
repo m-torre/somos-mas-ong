@@ -1,4 +1,4 @@
-const { body, validationResult } = require("express-validator");
+const { body, param, validationResult } = require("express-validator");
 
 const userCreationDataValidator = [
   body("firstName")
@@ -40,6 +40,8 @@ const userCreationDataValidator = [
 ];
 
 const userUpdateDataValidator = [
+  param("id").isInt().withMessage("The user ID must be an integer."),
+
   body("firstName")
     .optional({ checkFalsy: true })
     .isAlpha()
