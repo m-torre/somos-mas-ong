@@ -1,5 +1,5 @@
-const bcrypt = require("bcrypt");
 const { User, Role } = require("../models");
+const { getPasswordHash } = require("../helpers/passwordEncryption");
 
 const registerUser = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
@@ -16,8 +16,7 @@ const registerUser = async (req, res) => {
       .json({ error: "The email provided is already in use." });
   }
 
-  const saltRounds = 10;
-  const passwordHash = await bcrypt.hash(password, saltRounds);
+  const passwordHash = await getPasswordHash(password);
 
   const standardRole = await Role.findOne({
     where: {

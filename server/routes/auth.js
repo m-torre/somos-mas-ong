@@ -1,10 +1,15 @@
 const authRouter = require("express").Router();
 const { registerUser } = require("../controllers/auth");
 const {
-  userDataValidator,
+  userCreationDataValidator,
   checkValidator,
 } = require("../middleware/requestBodyValidators");
 
-authRouter.post("/register", userDataValidator, checkValidator, registerUser);
+authRouter.post(
+  "/register",
+  userCreationDataValidator,
+  checkValidator,
+  registerUser
+);
 
 module.exports = authRouter;
