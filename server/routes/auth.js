@@ -5,6 +5,7 @@ const {
   loginDataValidator,
   checkValidator,
 } = require("../middleware/requestDataValidators");
+const JWTValidator = require("../middleware/JWTValidator");
 
 authRouter.post(
   "/register",
@@ -15,6 +16,6 @@ authRouter.post(
 
 authRouter.post("/login", loginDataValidator, checkValidator, login);
 
-authRouter.get("/me", getUserData);
+authRouter.get("/me", JWTValidator, getUserData);
 
 module.exports = authRouter;

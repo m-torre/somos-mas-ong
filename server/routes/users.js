@@ -5,17 +5,25 @@ const {
   userUpdateDataValidator,
   checkValidator,
 } = require("../middleware/requestDataValidators");
+const JWTValidator = require("../middleware/JWTValidator");
 
-usersRouter.get("/", getUsers);
+usersRouter.get("/", JWTValidator, getUsers);
 
 usersRouter.put(
   "/:id",
   idValidator,
+  JWTValidator,
   userUpdateDataValidator,
   checkValidator,
   updateUser
 );
 
-usersRouter.delete("/:id", idValidator, checkValidator, deleteUser);
+usersRouter.delete(
+  "/:id",
+  JWTValidator,
+  idValidator,
+  checkValidator,
+  deleteUser
+);
 
 module.exports = usersRouter;

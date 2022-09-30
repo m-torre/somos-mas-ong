@@ -80,19 +80,7 @@ const login = async (req, res) => {
 };
 
 const getUserData = async (req, res) => {
-  const authorization = req.get("authorization");
-  let decodedToken;
-  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
-    try {
-      decodedToken = jwt.verify(authorization.substring(7), JWT_SECRET);
-    } catch {
-      res.status(401).json({ error: "Token invalid" });
-    }
-  } else {
-    res.status(401).json({ error: "Token missing" });
-  }
-
-  const user = await User.findByPk(decodedToken.id, {
+  const user = await User.findByPk(req.decodedToken.id, {
     attributes: {
       exclude: [
         "passwordHash",
