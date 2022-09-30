@@ -4,7 +4,7 @@ const {
   checkPassword,
 } = require("../helpers/passwordEncryption");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = require("../utils/config");
+const { JWT_SECRET, JWT_EXPIRATION_TIME } = require("../utils/config");
 
 const registerUser = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
@@ -29,7 +29,7 @@ const registerUser = async (req, res) => {
     },
   });
 
-  const user = {
+  const userData = {
     firstName,
     lastName,
     email,
@@ -37,12 +37,23 @@ const registerUser = async (req, res) => {
     roleId: standardRole.id,
   };
 
-  try {
-    const savedUser = await User.create(user);
-    res.status(201).json(savedUser);
-  } catch (error) {
-    next(error);
-  }
+  const savedUser = await User.create(userData);
+
+  const userForToken = {
+    id: savedUser.id,
+    email: savedUser.email,
+    firstName: savedUser.firstName,
+    lastName: savedUser.lastName,
+    role: {
+      name: standardRole.name,
+    },
+  };
+
+  const token = jwt.sign(userForToken, JWT_SECRET, {
+    expiresIn: JWT_EXPIRATION_TIME,
+  });
+
+  res.status(201).json({ token, user: userForToken });
 };
 
 const login = async (req, res) => {
@@ -74,7 +85,9 @@ const login = async (req, res) => {
     role: user.role,
   };
 
-  const token = jwt.sign(userForToken, JWT_SECRET, { expiresIn: 60 * 60 });
+  const token = jwt.sign(userForToken, JWT_SECRET, {
+    expiresIn: JWT_EXPIRATION_TIME,
+  });
 
   res.status(200).json({ token, user: userForToken });
 };

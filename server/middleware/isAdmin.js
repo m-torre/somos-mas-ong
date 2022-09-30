@@ -6,8 +6,6 @@ const isAdmin = async (req, res, next) => {
       name: "Admin",
     },
   });
-  console.log(adminRole);
-  console.log(req.user);
 
   if (req.user.roleId !== adminRole.id) {
     return res.status(401).json({ error: "The user is not an admin." });
