@@ -5,6 +5,7 @@ const cors = require("cors");
 const path = require("path");
 const morgan = require("morgan");
 const unknownEndpoint = require("./middleware/unknownEndpoint");
+require("express-async-errors");
 
 const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");

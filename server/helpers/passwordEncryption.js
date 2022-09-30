@@ -7,6 +7,13 @@ const getPasswordHash = async (plainTextPassword) => {
   return passwordHash;
 };
 
+const checkPassword = async (plainTextPassword, passwordHash) => {
+  const result = bcrypt.compare(plainTextPassword, passwordHash);
+
+  return result;
+};
+
 module.exports = {
   getPasswordHash,
+  checkPassword,
 };

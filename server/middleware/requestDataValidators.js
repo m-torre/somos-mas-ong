@@ -88,6 +88,21 @@ const userUpdateDataValidator = [
     .withMessage("The role ID must be an integer."),
 ];
 
+const loginDataValidator = [
+  body("email")
+    .exists()
+    .withMessage("The email field is required in the request.")
+    .isEmail()
+    .withMessage("The email must have a valid format."),
+
+  body("password")
+    .exists()
+    .withMessage("The password field is required in the request.")
+    .isString()
+    .withMessage("The password must be a string.")
+    .trim(),
+];
+
 const checkValidator = (req, res, next) => {
   const errors = validationResult(req);
 
@@ -102,5 +117,6 @@ module.exports = {
   idValidator,
   userCreationDataValidator,
   userUpdateDataValidator,
+  loginDataValidator,
   checkValidator,
 };
