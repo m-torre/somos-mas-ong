@@ -1,20 +1,21 @@
 const usersRouter = require("express").Router();
 const { getUsers, updateUser, deleteUser } = require("../controllers/users");
 const {
+  idValidator,
   userUpdateDataValidator,
   checkValidator,
-} = require("../middleware/requestBodyValidators");
-const { param } = require("express-validator");
+} = require("../middleware/requestDataValidators");
 
 usersRouter.get("/", getUsers);
 
-usersRouter.put("/:id", userUpdateDataValidator, checkValidator, updateUser);
-
-usersRouter.delete(
+usersRouter.put(
   "/:id",
-  param("id").isInt().withMessage("The user ID must be an integer."),
+  idValidator,
+  userUpdateDataValidator,
   checkValidator,
-  deleteUser
+  updateUser
 );
+
+usersRouter.delete("/:id", idValidator, checkValidator, deleteUser);
 
 module.exports = usersRouter;

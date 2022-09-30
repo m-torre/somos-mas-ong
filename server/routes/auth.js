@@ -3,7 +3,7 @@ const { registerUser } = require("../controllers/auth");
 const {
   userCreationDataValidator,
   checkValidator,
-} = require("../middleware/requestBodyValidators");
+} = require("../middleware/requestDataValidators");
 
 authRouter.post(
   "/register",
