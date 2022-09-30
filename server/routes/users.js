@@ -6,8 +6,9 @@ const {
   checkValidator,
 } = require("../middleware/requestDataValidators");
 const JWTValidator = require("../middleware/JWTValidator");
+const isAdmin = require("../middleware/isAdmin");
 
-usersRouter.get("/", JWTValidator, getUsers);
+usersRouter.get("/", JWTValidator, isAdmin, getUsers);
 
 usersRouter.put(
   "/:id",
