@@ -71,7 +71,7 @@ const login = async (req, res) => {
     email: user.email,
     firstName: user.firstName,
     lastName: user.lastName,
-    role: user.role.name,
+    role: user.role,
   };
 
   const token = jwt.sign(userForToken, JWT_SECRET, { expiresIn: 60 * 60 });
@@ -79,7 +79,41 @@ const login = async (req, res) => {
   res.status(200).json({ token, user: userForToken });
 };
 
+const getUserData = async (req, res) => {
+  const authorization = req.get("authorization");
+  let decodedToken;
+  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+    try {
+      decodedToken = jwt.verify(authorization.substring(7), JWT_SECRET);
+    } catch {
+      res.status(401).json({ error: "Token invalid" });
+    }
+  } else {
+    res.status(401).json({ error: "Token missing" });
+  }
+
+  const user = await User.findByPk(decodedToken.id, {
+    attributes: {
+      exclude: [
+        "passwordHash",
+        "roleId",
+        "deletedAt",
+        "createdAt",
+        "updatedAt",
+      ],
+    },
+    include: {
+      model: Role,
+      as: "role",
+      attributes: ["name"],
+    },
+  });
+
+  res.status(200).json({ user });
+};
+
 module.exports = {
   registerUser,
   login,
+  getUserData,
 };
