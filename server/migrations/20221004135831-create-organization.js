@@ -20,10 +20,10 @@ module.exports = {
       phone: {
         type: Sequelize.STRING,
       },
-      FacebookUrl: {
+      FacebookURL: {
         type: Sequelize.STRING,
       },
-      InstagramUrl: {
+      InstagramURL: {
         type: Sequelize.STRING,
       },
       createdAt: {

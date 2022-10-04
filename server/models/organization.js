@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       image: DataTypes.STRING,
       email: DataTypes.STRING,
       phone: DataTypes.STRING,
-      FacebookUrl: DataTypes.STRING,
-      InstagramUrl: DataTypes.STRING,
+      FacebookURL: DataTypes.STRING,
+      InstagramURL: DataTypes.STRING,
     },
     {
       sequelize,

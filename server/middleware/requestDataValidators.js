@@ -8,18 +8,18 @@ const userCreationDataValidator = [
   body("firstName")
     .exists()
     .withMessage("The firstName field is required in the request.")
-    .isAlpha()
-    .withMessage("The name must contain only letters.")
     .trim()
+    .isAlpha("es-ES")
+    .withMessage("The name must contain only letters.")
     .isLength({ min: 4 })
     .withMessage("The first name must be at least 4 letters long."),
 
   body("lastName")
     .exists()
     .withMessage("The lastName field is required in the request.")
-    .isAlpha()
-    .withMessage("The name must contain only letters.")
     .trim()
+    .isAlpha("es-ES")
+    .withMessage("The name must contain only letters.")
     .isLength({ min: 4 })
     .withMessage("The last name must be at least 4 letters long."),
 
@@ -46,17 +46,17 @@ const userCreationDataValidator = [
 const userUpdateDataValidator = [
   body("firstName")
     .optional({ checkFalsy: true })
-    .isAlpha()
-    .withMessage("The name must contain only letters.")
     .trim()
+    .isAlpha("es-ES")
+    .withMessage("The name must contain only letters.")
     .isLength({ min: 4 })
     .withMessage("The first name must be at least 4 letters long."),
 
   body("lastName")
     .optional({ checkFalsy: true })
-    .isAlpha()
-    .withMessage("The name must contain only letters.")
     .trim()
+    .isAlpha("es-ES")
+    .withMessage("The name must contain only letters.")
     .isLength({ min: 4 })
     .withMessage("The last name must be at least 4 letters long."),
 
@@ -103,6 +103,39 @@ const loginDataValidator = [
     .trim(),
 ];
 
+const organizationUpdateDataValidator = [
+  body("name")
+    .optional({ checkFalsy: true })
+    .isAlpha("es-ES", { ignore: " " })
+    .withMessage("The name must contain only letters.")
+    .trim()
+    .isLength({ min: 2 })
+    .withMessage("The name must be at least 2 letters long."),
+
+  body("email")
+    .optional({ checkFalsy: true })
+    .isEmail()
+    .withMessage("The email must have a valid format."),
+
+  body("phone")
+    .optional({ checkFalsy: true })
+    .isNumeric()
+    .withMessage("The phone must contain only numbers.")
+    .trim()
+    .isLength({ min: 8 })
+    .withMessage("The phone number must be at least 8 digits long."),
+
+  body("FacebookURL")
+    .optional({ checkFalsy: true })
+    .isURL()
+    .withMessage("The Facebook URL must have a valid format."),
+
+  body("InstagramURL")
+    .optional({ checkFalsy: true })
+    .isURL()
+    .withMessage("The Instagram URL must have a valid format."),
+];
+
 const checkValidator = (req, res, next) => {
   const errors = validationResult(req);
 
@@ -118,5 +151,6 @@ module.exports = {
   userCreationDataValidator,
   userUpdateDataValidator,
   loginDataValidator,
+  organizationUpdateDataValidator,
   checkValidator,
 };

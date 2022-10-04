@@ -7,6 +7,7 @@ const {
   AWS_REGION,
   AWS_S3_BUCKET,
 } = require("../utils/config");
+const path = require("path");
 
 AWS.config.update({
   credentials: {
@@ -18,7 +19,7 @@ AWS.config.update({
 
 s3 = new AWS.S3({ apiVersion: "2006-03-01" });
 
-const uploadFile = multer({
+const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: AWS_S3_BUCKET,
@@ -27,9 +28,23 @@ const uploadFile = multer({
       cb(null, { fieldName: file.fieldname });
     },
     key: function (req, file, cb) {
-      cb(null, Date.now().toString());
+      cb(null, Date.now().toString() + path.extname(file.originalname));
     },
   }),
 });
 
-module.exports = uploadFile;
+const singleUpload = upload.single("image");
+
+const imageUpload = (req, res, next) => {
+  singleUpload(req, res, (err) => {
+    if (err) {
+      return res.status(422).json({
+        error: [{ title: "Image Upload Error", detail: err.message }],
+      });
+    }
+  });
+
+  next();
+};
+
+module.exports = imageUpload;
