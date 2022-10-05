@@ -28,23 +28,10 @@ const upload = multer({
       cb(null, { fieldName: file.fieldname });
     },
     key: function (req, file, cb) {
-      cb(null, Date.now().toString() + path.extname(file.originalname));
+      const filename = Date.now().toString() + path.extname(file.originalname);
+      cb(null, filename);
     },
   }),
 });
 
-const singleUpload = upload.single("image");
-
-const imageUpload = (req, res, next) => {
-  singleUpload(req, res, (err) => {
-    if (err) {
-      return res.status(422).json({
-        error: [{ title: "Image Upload Error", detail: err.message }],
-      });
-    }
-  });
-
-  next();
-};
-
-module.exports = imageUpload;
+module.exports = upload.single("image");
