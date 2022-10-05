@@ -38,8 +38,19 @@ const updateActivity = async (req, res) => {
   res.status(200).json(updatedActivity);
 };
 
+const deleteActivity = async (req, res) => {
+  const activity = await Activity.findByPk(req.params.id);
+
+  if (activity) {
+    await activity.destroy();
+  }
+
+  res.status(204).end();
+};
+
 module.exports = {
   getActivities,
   createActivity,
   updateActivity,
+  deleteActivity,
 };

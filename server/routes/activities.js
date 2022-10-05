@@ -3,6 +3,7 @@ const {
   getActivities,
   createActivity,
   updateActivity,
+  deleteActivity,
 } = require("../controllers/activities");
 const {
   idValidator,
@@ -36,6 +37,15 @@ activitiesRouter.put(
   activityUpdateDataValidator,
   checkValidator,
   updateActivity
+);
+
+activitiesRouter.delete(
+  "/:id",
+  JWTValidator,
+  isAdmin,
+  idValidator,
+  checkValidator,
+  deleteActivity
 );
 
 module.exports = activitiesRouter;
