@@ -36,8 +36,19 @@ const updateNews = async (req, res) => {
   res.status(200).json(updatedNews);
 };
 
+const deleteNews = async (req, res) => {
+  const news = await News.findByPk(req.params.id);
+
+  if (news) {
+    await news.destroy();
+  }
+
+  res.status(204).end();
+};
+
 module.exports = {
   getNews,
   createNews,
   updateNews,
+  deleteNews,
 };

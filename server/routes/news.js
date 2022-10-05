@@ -1,5 +1,10 @@
 const newsRouter = require("express").Router();
-const { getNews, createNews, updateNews } = require("../controllers/news");
+const {
+  getNews,
+  createNews,
+  updateNews,
+  deleteNews,
+} = require("../controllers/news");
 const {
   idValidator,
   newsCreationDataValidator,
@@ -32,6 +37,15 @@ newsRouter.put(
   newsUpdateDataValidator,
   checkValidator,
   updateNews
+);
+
+newsRouter.delete(
+  "/:id",
+  JWTValidator,
+  isAdmin,
+  idValidator,
+  checkValidator,
+  deleteNews
 );
 
 module.exports = newsRouter;
