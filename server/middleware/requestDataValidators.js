@@ -1,4 +1,11 @@
-const { body, param, validationResult } = require("express-validator");
+const {
+  body,
+  param,
+  buildCheckFunction,
+  validationResult,
+} = require("express-validator");
+
+const checkFile = buildCheckFunction(["file"]);
 
 const idValidator = param("id")
   .isInt()
@@ -77,11 +84,6 @@ const userUpdateDataValidator = [
       "The password must have at least one lowercase letter, one uppercase letter and a number."
     ),
 
-  body("image")
-    .optional({ checkFalsy: true })
-    .isURL()
-    .withMessage("The image URL must have a valid format."),
-
   body("roleId")
     .optional({ checkFalsy: true })
     .isInt()
@@ -111,11 +113,6 @@ const organizationUpdateDataValidator = [
     .trim()
     .isLength({ min: 2 })
     .withMessage("The name must be at least 2 letters long."),
-
-  body("image")
-    .optional({ checkFalsy: true })
-    .isURL()
-    .withMessage("The image URL must have a valid format."),
 
   body("email")
     .optional({ checkFalsy: true })
@@ -151,11 +148,7 @@ const memberCreationDataValidator = [
     .isLength({ min: 4 })
     .withMessage("The name must be at least 4 letters long."),
 
-  body("image")
-    .exists()
-    .withMessage("The image field is required in the request.")
-    .isURL()
-    .withMessage("The image URL must have a valid format."),
+  checkFile().exists().withMessage("The image is required in the request."),
 
   body("description")
     .exists()
@@ -173,11 +166,6 @@ const memberUpdateDataValidator = [
     .withMessage("The name must contain only letters.")
     .isLength({ min: 4 })
     .withMessage("The name must be at least 4 letters long."),
-
-  body("image")
-    .optional({ checkFalsy: true })
-    .isURL()
-    .withMessage("The image URL must have a valid format."),
 
   body("description")
     .optional({ checkFalsy: true })

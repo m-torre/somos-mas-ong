@@ -13,6 +13,7 @@ const {
   memberUpdateDataValidator,
   checkValidator,
 } = require("../middleware/requestDataValidators");
+const imageUpload = require("../middleware/imageUpload");
 
 membersRouter.get("/", getMembers);
 
@@ -20,6 +21,7 @@ membersRouter.post(
   "/",
   JWTValidator,
   isAdmin,
+  imageUpload,
   memberCreationDataValidator,
   checkValidator,
   createMember
@@ -30,6 +32,8 @@ membersRouter.put(
   JWTValidator,
   isAdmin,
   idValidator,
+  checkValidator,
+  imageUpload,
   memberUpdateDataValidator,
   checkValidator,
   updateMember
