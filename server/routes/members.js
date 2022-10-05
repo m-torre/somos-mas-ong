@@ -1,9 +1,15 @@
 const membersRouter = require("express").Router();
-const { getMembers, createMember } = require("../controllers/members");
+const {
+  getMembers,
+  createMember,
+  updateMember,
+} = require("../controllers/members");
 const JWTValidator = require("../middleware/JWTValidator");
 const isAdmin = require("../middleware/isAdmin");
 const {
+  idValidator,
   memberCreationDataValidator,
+  memberUpdateDataValidator,
   checkValidator,
 } = require("../middleware/requestDataValidators");
 
@@ -16,6 +22,16 @@ membersRouter.post(
   memberCreationDataValidator,
   checkValidator,
   createMember
+);
+
+membersRouter.put(
+  "/:id",
+  JWTValidator,
+  isAdmin,
+  idValidator,
+  memberUpdateDataValidator,
+  checkValidator,
+  updateMember
 );
 
 module.exports = membersRouter;

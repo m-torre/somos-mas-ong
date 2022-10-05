@@ -149,7 +149,7 @@ const memberCreationDataValidator = [
     .isAlpha("es-ES", { ignore: " " })
     .withMessage("The name must contain only letters.")
     .isLength({ min: 4 })
-    .withMessage("The first name must be at least 4 letters long."),
+    .withMessage("The name must be at least 4 letters long."),
 
   body("image")
     .exists()
@@ -160,6 +160,27 @@ const memberCreationDataValidator = [
   body("description")
     .exists()
     .withMessage("The description field is required in the request.")
+    .isString()
+    .withMessage("The description must be a string.")
+    .trim(),
+];
+
+const memberUpdateDataValidator = [
+  body("name")
+    .optional({ checkFalsy: true })
+    .trim()
+    .isAlpha("es-ES", { ignore: " " })
+    .withMessage("The name must contain only letters.")
+    .isLength({ min: 4 })
+    .withMessage("The name must be at least 4 letters long."),
+
+  body("image")
+    .optional({ checkFalsy: true })
+    .isURL()
+    .withMessage("The image URL must have a valid format."),
+
+  body("description")
+    .optional({ checkFalsy: true })
     .isString()
     .withMessage("The description must be a string.")
     .trim(),
@@ -182,5 +203,6 @@ module.exports = {
   loginDataValidator,
   organizationUpdateDataValidator,
   memberCreationDataValidator,
+  memberUpdateDataValidator,
   checkValidator,
 };
