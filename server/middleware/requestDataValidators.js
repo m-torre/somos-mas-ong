@@ -256,6 +256,44 @@ const newsUpdateDataValidator = [
     .withMessage("The content must be at least 4 letters long."),
 ];
 
+const testimonialCreationDataValidator = [
+  body("name")
+    .exists()
+    .withMessage("The name field is required in the request.")
+    .trim()
+    .isAlpha("es-ES", { ignore: " " })
+    .withMessage("The name must contain only letters.")
+    .isLength({ min: 4 })
+    .withMessage("The name must be at least 4 letters long."),
+
+  body("content")
+    .exists()
+    .withMessage("The content field is required in the request.")
+    .isString()
+    .withMessage("The content must be a string.")
+    .trim()
+    .isLength({ min: 4 })
+    .withMessage("The content must be at least 4 letters long."),
+];
+
+const testimonialUpdateDataValidator = [
+  body("name")
+    .optional({ checkFalsy: true })
+    .trim()
+    .isAlpha("es-ES", { ignore: " " })
+    .withMessage("The name must contain only letters.")
+    .isLength({ min: 4 })
+    .withMessage("The name must be at least 4 letters long."),
+
+  body("content")
+    .optional({ checkFalsy: true })
+    .isString()
+    .withMessage("The content must be a string.")
+    .trim()
+    .isLength({ min: 4 })
+    .withMessage("The content must be at least 4 letters long."),
+];
+
 const checkValidator = (req, res, next) => {
   const errors = validationResult(req);
 
@@ -278,5 +316,7 @@ module.exports = {
   activityUpdateDataValidator,
   newsCreationDataValidator,
   newsUpdateDataValidator,
+  testimonialCreationDataValidator,
+  testimonialUpdateDataValidator,
   checkValidator,
 };
