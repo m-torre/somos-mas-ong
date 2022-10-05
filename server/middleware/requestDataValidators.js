@@ -79,8 +79,8 @@ const userUpdateDataValidator = [
 
   body("image")
     .optional({ checkFalsy: true })
-    .isString()
-    .withMessage("The image URL must be a string."),
+    .isURL()
+    .withMessage("The image URL must have a valid format."),
 
   body("roleId")
     .optional({ checkFalsy: true })
@@ -112,6 +112,11 @@ const organizationUpdateDataValidator = [
     .isLength({ min: 2 })
     .withMessage("The name must be at least 2 letters long."),
 
+  body("image")
+    .optional({ checkFalsy: true })
+    .isURL()
+    .withMessage("The image URL must have a valid format."),
+
   body("email")
     .optional({ checkFalsy: true })
     .isEmail()
@@ -136,6 +141,51 @@ const organizationUpdateDataValidator = [
     .withMessage("The Instagram URL must have a valid format."),
 ];
 
+const memberCreationDataValidator = [
+  body("name")
+    .exists()
+    .withMessage("The name field is required in the request.")
+    .trim()
+    .isAlpha("es-ES", { ignore: " " })
+    .withMessage("The name must contain only letters.")
+    .isLength({ min: 4 })
+    .withMessage("The name must be at least 4 letters long."),
+
+  body("image")
+    .exists()
+    .withMessage("The image field is required in the request.")
+    .isURL()
+    .withMessage("The image URL must have a valid format."),
+
+  body("description")
+    .exists()
+    .withMessage("The description field is required in the request.")
+    .isString()
+    .withMessage("The description must be a string.")
+    .trim(),
+];
+
+const memberUpdateDataValidator = [
+  body("name")
+    .optional({ checkFalsy: true })
+    .trim()
+    .isAlpha("es-ES", { ignore: " " })
+    .withMessage("The name must contain only letters.")
+    .isLength({ min: 4 })
+    .withMessage("The name must be at least 4 letters long."),
+
+  body("image")
+    .optional({ checkFalsy: true })
+    .isURL()
+    .withMessage("The image URL must have a valid format."),
+
+  body("description")
+    .optional({ checkFalsy: true })
+    .isString()
+    .withMessage("The description must be a string.")
+    .trim(),
+];
+
 const checkValidator = (req, res, next) => {
   const errors = validationResult(req);
 
@@ -152,5 +202,7 @@ module.exports = {
   userUpdateDataValidator,
   loginDataValidator,
   organizationUpdateDataValidator,
+  memberCreationDataValidator,
+  memberUpdateDataValidator,
   checkValidator,
 };

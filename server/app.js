@@ -10,6 +10,7 @@ const unknownEndpoint = require("./middleware/unknownEndpoint");
 const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 const organizationsRouter = require("./routes/organizations");
+const membersRouter = require("./routes/members");
 
 app.use(cors());
 app.use(express.static(path.resolve(__dirname, "../client/build")));
@@ -19,6 +20,7 @@ app.use(morgan("dev"));
 app.use("/api/users", usersRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/organizations", organizationsRouter);
+app.use("/api/members", membersRouter);
 
 app.get("/api/*", unknownEndpoint);
 
