@@ -13,6 +13,7 @@ const organizationsRouter = require("./routes/organizations");
 const membersRouter = require("./routes/members");
 const activitiesRouter = require("./routes/activities");
 const newsRouter = require("./routes/news");
+const testimonialsRouter = require("./routes/testimonials");
 
 app.use(cors());
 app.use(express.static(path.resolve(__dirname, "../client/build")));
@@ -25,6 +26,7 @@ app.use("/api/organizations", organizationsRouter);
 app.use("/api/members", membersRouter);
 app.use("/api/activities", activitiesRouter);
 app.use("/api/news", newsRouter);
+app.use("/api/testimonials", testimonialsRouter);
 
 app.get("/api/*", unknownEndpoint);
 
