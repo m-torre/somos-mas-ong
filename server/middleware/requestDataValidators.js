@@ -1,4 +1,11 @@
-const { body, param, validationResult } = require("express-validator");
+const {
+  body,
+  param,
+  buildCheckFunction,
+  validationResult,
+} = require("express-validator");
+
+const checkFile = buildCheckFunction(["file"]);
 
 const idValidator = param("id")
   .isInt()
@@ -183,7 +190,31 @@ const memberUpdateDataValidator = [
     .optional({ checkFalsy: true })
     .isString()
     .withMessage("The description must be a string.")
-    .trim(),
+    .trim()
+    .isLength({ min: 4 })
+    .withMessage("The description must be at least 4 letters long."),
+];
+
+const activityCreationDataValidator = [
+  body("name")
+    .exists()
+    .withMessage("The name field is required in the request.")
+    .trim()
+    .isAlpha("es-ES", { ignore: " " })
+    .withMessage("The name must contain only letters.")
+    .isLength({ min: 4 })
+    .withMessage("The name must be at least 4 letters long."),
+
+  checkFile().exists().withMessage("The image is required in the request."),
+
+  body("content")
+    .exists()
+    .withMessage("The content field is required in the request.")
+    .isString()
+    .withMessage("The content must be a string.")
+    .trim()
+    .isLength({ min: 4 })
+    .withMessage("The content must be at least 4 letters long."),
 ];
 
 const checkValidator = (req, res, next) => {
@@ -204,5 +235,6 @@ module.exports = {
   organizationUpdateDataValidator,
   memberCreationDataValidator,
   memberUpdateDataValidator,
+  activityCreationDataValidator,
   checkValidator,
 };
