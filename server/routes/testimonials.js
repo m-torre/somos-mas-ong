@@ -3,6 +3,7 @@ const {
   getTestimonials,
   createTestimonial,
   updateTestimonial,
+  deleteTestimonial,
 } = require("../controllers/testimonials");
 const {
   idValidator,
@@ -32,6 +33,15 @@ testimonialsRouter.put(
   testimonialUpdateDataValidator,
   checkValidator,
   updateTestimonial
+);
+
+testimonialsRouter.delete(
+  "/:id",
+  JWTValidator,
+  isAdmin,
+  idValidator,
+  checkValidator,
+  deleteTestimonial
 );
 
 module.exports = testimonialsRouter;

@@ -36,8 +36,19 @@ const updateTestimonial = async (req, res) => {
   res.status(200).json(updatedTestimonial);
 };
 
+const deleteTestimonial = async (req, res) => {
+  const testimonial = await Testimonial.findByPk(req.params.id);
+
+  if (testimonial) {
+    await testimonial.destroy();
+  }
+
+  res.status(204).end();
+};
+
 module.exports = {
   getTestimonials,
   createTestimonial,
   updateTestimonial,
+  deleteTestimonial,
 };
