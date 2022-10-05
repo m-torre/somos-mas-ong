@@ -10,34 +10,34 @@ const getUsers = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const userFound = await User.findByPk(req.params.id);
+  const user = await User.findByPk(req.params.id);
 
-  if (!userFound) {
+  if (!user) {
     return res.status(404).json({ error: "User not found." });
   }
 
   const updatedUserData = {
-    firstName: req.body.firstName ? req.body.firstName : userFound.firstName,
-    lastName: req.body.lastName ? req.body.lastName : userFound.lastName,
-    email: req.body.email ? req.body.email : userFound.email,
-    image: req.body.image ? req.body.image : userFound.image,
+    firstName: req.body.firstName ? req.body.firstName : user.firstName,
+    lastName: req.body.lastName ? req.body.lastName : user.lastName,
+    email: req.body.email ? req.body.email : user.email,
+    image: req.file ? req.file.location : user.image,
     passwordHash: req.body.password
       ? await getPasswordHash(req.body.password)
-      : userFound.passwordHash,
-    roleId: req.body.roleId ? req.body.roleId : userFound.roleId,
+      : user.passwordHash,
+    roleId: req.body.roleId ? req.body.roleId : user.roleId,
   };
 
-  await userFound.set(updatedUserData);
-  const updatedUser = await userFound.save();
+  await user.set(updatedUserData);
+  const updatedUser = await user.save();
 
-  res.status(200).json({ updatedUser });
+  res.status(200).json(updatedUser);
 };
 
 const deleteUser = async (req, res) => {
-  const userFound = await User.findByPk(req.params.id);
+  const user = await User.findByPk(req.params.id);
 
-  if (userFound) {
-    await userFound.destroy();
+  if (user) {
+    await user.destroy();
   }
 
   res.status(204).end();
