@@ -11,7 +11,7 @@ const getMembers = async (req, res) => {
 const createMember = async (req, res) => {
   const memberData = {
     name: req.body.name,
-    image: req.body.image,
+    image: req.file.location,
     description: req.body.description,
   };
 
