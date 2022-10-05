@@ -155,7 +155,9 @@ const memberCreationDataValidator = [
     .withMessage("The description field is required in the request.")
     .isString()
     .withMessage("The description must be a string.")
-    .trim(),
+    .trim()
+    .isLength({ min: 4 })
+    .withMessage("The description must be at least 4 letters long."),
 ];
 
 const memberUpdateDataValidator = [
@@ -181,7 +183,7 @@ const activityCreationDataValidator = [
     .exists()
     .withMessage("The name field is required in the request.")
     .trim()
-    .isAlpha("es-ES", { ignore: " " })
+    .isAlphanumeric("es-ES", { ignore: " " })
     .withMessage("The name must contain only letters.")
     .isLength({ min: 4 })
     .withMessage("The name must be at least 4 letters long."),
@@ -202,7 +204,45 @@ const activityUpdateDataValidator = [
   body("name")
     .optional({ checkFalsy: true })
     .trim()
-    .isAlpha("es-ES", { ignore: " " })
+    .isAlphanumeric("es-ES", { ignore: " " })
+    .withMessage("The name must contain only letters.")
+    .isLength({ min: 4 })
+    .withMessage("The name must be at least 4 letters long."),
+
+  body("content")
+    .optional({ checkFalsy: true })
+    .isString()
+    .withMessage("The content must be a string.")
+    .trim()
+    .isLength({ min: 4 })
+    .withMessage("The content must be at least 4 letters long."),
+];
+
+const newsCreationDataValidator = [
+  body("name")
+    .exists()
+    .withMessage("The name field is required in the request.")
+    .trim()
+    .isAlphanumeric("es-ES", { ignore: " " })
+    .withMessage("The name must contain only letters.")
+    .isLength({ min: 4 })
+    .withMessage("The name must be at least 4 letters long."),
+
+  body("content")
+    .exists()
+    .withMessage("The content field is required in the request.")
+    .isString()
+    .withMessage("The content must be a string.")
+    .trim()
+    .isLength({ min: 4 })
+    .withMessage("The content must be at least 4 letters long."),
+];
+
+const newsUpdateDataValidator = [
+  body("name")
+    .optional({ checkFalsy: true })
+    .trim()
+    .isAlphanumeric("es-ES", { ignore: " " })
     .withMessage("The name must contain only letters.")
     .isLength({ min: 4 })
     .withMessage("The name must be at least 4 letters long."),
@@ -236,5 +276,7 @@ module.exports = {
   memberUpdateDataValidator,
   activityCreationDataValidator,
   activityUpdateDataValidator,
+  newsCreationDataValidator,
+  newsUpdateDataValidator,
   checkValidator,
 };
