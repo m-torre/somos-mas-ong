@@ -1,5 +1,13 @@
 const { Activity } = require("../models");
 
+const getActivities = async (req, res) => {
+  const activities = await Activity.findAll({
+    attributes: ["id", "name", "image", "content"],
+  });
+
+  res.status(200).json(activities);
+};
+
 const createActivity = async (req, res) => {
   const activityData = {
     name: req.body.name,
@@ -12,5 +20,6 @@ const createActivity = async (req, res) => {
 };
 
 module.exports = {
+  getActivities,
   createActivity,
 };

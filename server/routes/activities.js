@@ -1,5 +1,5 @@
 const activitiesRouter = require("express").Router();
-const { createActivity } = require("../controllers/activities");
+const { getActivities, createActivity } = require("../controllers/activities");
 const {
   activityCreationDataValidator,
   checkValidator,
@@ -7,6 +7,8 @@ const {
 const JWTValidator = require("../middleware/JWTValidator");
 const isAdmin = require("../middleware/isAdmin");
 const imageUpload = require("../middleware/imageUpload");
+
+activitiesRouter.get("/", getActivities);
 
 activitiesRouter.post(
   "/",
