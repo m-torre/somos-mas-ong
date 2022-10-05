@@ -1,5 +1,5 @@
 const newsRouter = require("express").Router();
-const { createNews } = require("../controllers/news");
+const { getNews, createNews } = require("../controllers/news");
 const {
   newsCreationDataValidator,
   checkValidator,
@@ -7,6 +7,8 @@ const {
 const JWTValidator = require("../middleware/JWTValidator");
 const isAdmin = require("../middleware/isAdmin");
 const imageUpload = require("../middleware/imageUpload");
+
+newsRouter.get("/", getNews);
 
 newsRouter.post(
   "/",
