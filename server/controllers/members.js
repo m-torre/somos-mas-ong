@@ -1,5 +1,13 @@
 const { Member } = require("../models");
 
+const getMembers = async (req, res) => {
+  const members = await Member.findAll({
+    attributes: ["name", "image", "description"],
+  });
+
+  res.status(200).json(members);
+};
+
 const createMember = async (req, res) => {
   const memberData = {
     name: req.body.name,
@@ -12,5 +20,6 @@ const createMember = async (req, res) => {
 };
 
 module.exports = {
+  getMembers,
   createMember,
 };
