@@ -238,6 +238,24 @@ const newsCreationDataValidator = [
     .withMessage("The content must be at least 4 letters long."),
 ];
 
+const newsUpdateDataValidator = [
+  body("name")
+    .optional({ checkFalsy: true })
+    .trim()
+    .isAlphanumeric("es-ES", { ignore: " " })
+    .withMessage("The name must contain only letters.")
+    .isLength({ min: 4 })
+    .withMessage("The name must be at least 4 letters long."),
+
+  body("content")
+    .optional({ checkFalsy: true })
+    .isString()
+    .withMessage("The content must be a string.")
+    .trim()
+    .isLength({ min: 4 })
+    .withMessage("The content must be at least 4 letters long."),
+];
+
 const checkValidator = (req, res, next) => {
   const errors = validationResult(req);
 
@@ -259,5 +277,6 @@ module.exports = {
   activityCreationDataValidator,
   activityUpdateDataValidator,
   newsCreationDataValidator,
+  newsUpdateDataValidator,
   checkValidator,
 };
