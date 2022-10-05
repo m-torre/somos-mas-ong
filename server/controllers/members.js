@@ -40,8 +40,19 @@ const updateMember = async (req, res) => {
   res.status(200).json(updatedMember);
 };
 
+const deleteMember = async (req, res) => {
+  const member = await Member.findByPk(req.params.id);
+
+  if (member) {
+    await member.destroy();
+  }
+
+  res.status(204).end();
+};
+
 module.exports = {
   getMembers,
   createMember,
   updateMember,
+  deleteMember,
 };

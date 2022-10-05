@@ -3,6 +3,7 @@ const {
   getMembers,
   createMember,
   updateMember,
+  deleteMember,
 } = require("../controllers/members");
 const JWTValidator = require("../middleware/JWTValidator");
 const isAdmin = require("../middleware/isAdmin");
@@ -32,6 +33,15 @@ membersRouter.put(
   memberUpdateDataValidator,
   checkValidator,
   updateMember
+);
+
+membersRouter.delete(
+  "/:id",
+  JWTValidator,
+  isAdmin,
+  idValidator,
+  checkValidator,
+  deleteMember
 );
 
 module.exports = membersRouter;
