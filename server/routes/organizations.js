@@ -19,9 +19,10 @@ organizationsRouter.put(
   JWTValidator,
   isAdmin,
   idValidator,
-  organizationUpdateDataValidator,
   checkValidator,
   imageUpload,
+  organizationUpdateDataValidator,
+  checkValidator,
   updateOrganization
 );
 
