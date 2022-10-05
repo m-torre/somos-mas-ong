@@ -1,11 +1,16 @@
 const testimonialsRouter = require("express").Router();
-const { createTestimonial } = require("../controllers/testimonials");
+const {
+  getTestimonials,
+  createTestimonial,
+} = require("../controllers/testimonials");
 const {
   testimonialCreationDataValidator,
   checkValidator,
 } = require("../middleware/requestDataValidators");
 const JWTValidator = require("../middleware/JWTValidator");
 const isAdmin = require("../middleware/isAdmin");
+
+testimonialsRouter.get("/", getTestimonials);
 
 testimonialsRouter.post(
   "/",
