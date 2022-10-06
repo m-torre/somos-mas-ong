@@ -5,6 +5,26 @@ const api = supertest(app);
 const User = require("../models").User;
 const { standardUser, adminUser, logIn } = require("./test_helper");
 
+jest.mock("../middleware/imageUpload");
+const imageUpload = require("../middleware/imageUpload");
+const busboy = require("busboy");
+
+imageUpload.mockImplementation((req, res, next) => {
+  const bb = busboy({ headers: req.headers });
+  bb.on("field", (name, val, info) => {
+    req.body[name] = val;
+  });
+  req.pipe(bb);
+
+  req.file = {
+    originalname: "Test",
+    mimetype: "test/test",
+    location: "http://testURL.com/testFile.test",
+  };
+
+  next();
+});
+
 describe("GET /users", () => {
   test("Fails if user is not logged in", async () => {
     await api.get("/api/users").expect(401);
@@ -53,7 +73,7 @@ describe("PUT /users/:id", () => {
       const newUserData = {
         firstName: "Test",
         lastName: "User",
-        email: "testUser1@test.com",
+        email: "testUser@test.com",
         password: "vvyEU3tu",
       };
 
@@ -77,6 +97,8 @@ describe("PUT /users/:id", () => {
         .field("lastName", "Pérez")
         .expect(200)
         .expect("Content-Type", /application\/json/);
+
+      await newUser.destroy();
     }, 100000);
   });
 });
@@ -102,7 +124,7 @@ describe("DELETE /users/:id", () => {
       const newUser = {
         firstName: "Test",
         lastName: "User",
-        email: "testUser2@test.com",
+        email: "testUser@test.com",
         password: "vvyEU3tu",
       };
 

@@ -2,8 +2,27 @@ const supertest = require("supertest");
 const app = require("../app");
 const api = supertest(app);
 
-const Organization = require("../models").Organization;
 const { standardUser, adminUser, logIn } = require("./test_helper");
+
+jest.mock("../middleware/imageUpload");
+const imageUpload = require("../middleware/imageUpload");
+const busboy = require("busboy");
+
+imageUpload.mockImplementation((req, res, next) => {
+  const bb = busboy({ headers: req.headers });
+  bb.on("field", (name, val, info) => {
+    req.body[name] = val;
+  });
+  req.pipe(bb);
+
+  req.file = {
+    originalname: "Test",
+    mimetype: "test/test",
+    location: "http://testURL.com/testFile.test",
+  };
+
+  next();
+});
 
 describe("GET /organizations/:id", () => {
   test("Fails if id is invalid", async () => {
@@ -51,10 +70,9 @@ describe("PUT /organizations/:id", () => {
         await api
           .put("/api/organizations/1")
           .set("Authorization", `Bearer ${loggedUser.body.token}`)
-          .send({
-            name: "Test",
-            email: "test@test.com",
-          })
+          .set("Content-Type", "multipart/form-data")
+          .field("name", "Test")
+          .field("email", "test@test.com")
           .expect(200);
       }, 100000);
     });
