@@ -1,5 +1,11 @@
 const { Contact } = require("../models");
 
+const getContacts = async (req, res) => {
+  const contacts = await Contact.findAll();
+
+  res.status(200).json(contacts);
+};
+
 const createContact = async (req, res) => {
   const contactData = {
     name: req.body.name,
@@ -13,5 +19,6 @@ const createContact = async (req, res) => {
 };
 
 module.exports = {
+  getContacts,
   createContact,
 };
