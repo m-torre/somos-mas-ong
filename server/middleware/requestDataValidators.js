@@ -294,6 +294,41 @@ const testimonialUpdateDataValidator = [
     .withMessage("The content must be at least 4 letters long."),
 ];
 
+const contactCreationDataValidator = [
+  body("name")
+    .exists()
+    .withMessage("The name field is required in the request.")
+    .trim()
+    .isAlpha("es-ES", { ignore: " " })
+    .withMessage("The name must contain only letters.")
+    .isLength({ min: 4 })
+    .withMessage("The name must be at least 4 letters long."),
+
+  body("phone")
+    .exists()
+    .withMessage("The phone field is required in the request.")
+    .isNumeric()
+    .withMessage("The phone must contain only numbers.")
+    .trim()
+    .isLength({ min: 8 })
+    .withMessage("The phone number must be at least 8 digits long."),
+
+  body("email")
+    .exists()
+    .withMessage("The email field is required in the request.")
+    .isEmail()
+    .withMessage("The email must have a valid format."),
+
+  body("message")
+    .exists()
+    .withMessage("The message field is required in the request.")
+    .isString()
+    .withMessage("The message must be a string.")
+    .trim()
+    .isLength({ min: 4 })
+    .withMessage("The message must be at least 4 letters long."),
+];
+
 const checkValidator = (req, res, next) => {
   const errors = validationResult(req);
 
@@ -318,5 +353,6 @@ module.exports = {
   newsUpdateDataValidator,
   testimonialCreationDataValidator,
   testimonialUpdateDataValidator,
+  contactCreationDataValidator,
   checkValidator,
 };
